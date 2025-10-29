@@ -1,0 +1,91 @@
+==========================================================
+💡 Power Query ETL Steps for HR Analytics Dashboard
+==========================================================
+
+📘 Objective:
+Transform raw HR data (CSV files) into a clean, structured format suitable for Power BI analysis.
+
+==========================================================
+🔹 Step 1: Data Import
+==========================================================
+• Imported multiple CSV files containing HR data (Employee Info, Department, and Performance Data).
+• Used "Get Data → Text/CSV" option in Power BI.
+
+Example:
+Source = Csv.Document(File.Contents("HR_Data.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None])
+
+==========================================================
+🔹 Step 2: Promote Headers
+==========================================================
+• Promoted first row as headers for better readability.
+
+Example:
+PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+
+==========================================================
+🔹 Step 3: Change Data Types
+==========================================================
+• Changed data types for numeric, text, and date fields.
+
+Example:
+ChangedType = Table.TransformColumnTypes(PromotedHeaders, {
+    {"EmployeeID", Int64.Type},
+    {"Age", Int64.Type},
+    {"MonthlyIncome", type number},
+    {"Department", type text},
+    {"JobRole", type text},
+    {"Attrition", type text}
+})
+
+==========================================================
+🔹 Step 4: Remove Duplicates and Null Values
+==========================================================
+• Removed duplicate rows based on EmployeeID.
+• Replaced nulls in Department and JobRole with “Not Available”.
+
+Example:
+RemovedDuplicates = Table.Distinct(ChangedType)
+ReplacedNulls = Table.ReplaceValue(RemovedDuplicates, null, "Not Available", Replacer.ReplaceValue, {"Department", "JobRole"})
+
+==========================================================
+🔹 Step 5: Add Calculated Columns
+==========================================================
+• Added new columns to categorize employees and enhance insights.
+
+Example:
+AddTenureCategory = Table.AddColumn(ReplacedNulls, "TenureCategory", each 
+    if [YearsAtCompany] <= 2 then "New" 
+    else if [YearsAtCompany] <= 5 then "Experienced" 
+    else "Senior")
+
+==========================================================
+🔹 Step 6: Merge Queries (If Multiple Sources)
+==========================================================
+• Merged Department and Performance tables using EmployeeID or DepartmentName as a key.
+• Used “Merge Queries” in Power Query Editor → “Left Join”.
+
+==========================================================
+🔹 Step 7: Final Cleanup and Load
+==========================================================
+• Verified data consistency and relationships.
+• Loaded cleaned data into Power BI data model.
+
+FinalTable = AddTenureCategory
+
+==========================================================
+✅ ETL Summary:
+----------------------------------------------------------
+✔ Data imported and transformed from CSV files.
+✔ Cleaned for duplicates, missing values, and incorrect data types.
+✔ Added calculated columns for deeper analytics.
+✔ Final table loaded into Power BI for visualization.
+----------------------------------------------------------
+
+📅 Tools Used:
+- Microsoft Power BI
+- Power Query Editor (ETL)
+- CSV as data source
+
+==========================================================
+🧠 Author: Prajwal C K
+==========================================================
