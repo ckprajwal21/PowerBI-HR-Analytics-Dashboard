@@ -53,12 +53,13 @@ These insights enable HR professionals to make data-driven decisions regarding w
 
 ---
 
-## 🌐 Live Dashboard
+## 🌐 Live Dashboard Link👇
 🔗 [View Interactive Power BI Dashboard](https://app.powerbi.com/view?r=eyJrIjoiYjFkOTJiNDEtOGQwYy00YjUwLWE4YTAtOTBlZjMzZmM5MjFhIiwidCI6ImE5MzQ1N2U5LWE4OGEtNDUxNC1iNmMyLTNmYTM3NWIwMDY4OCJ9)
 
 ---
 
 ## 📁 Repository Structure
+
 PowerBI-HR-Analytics-Dashboard/
 │
 ├── HR_Analytics_Dashboard.pbix # Power BI dashboard file
